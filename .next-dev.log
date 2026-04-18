@@ -1,0 +1,23 @@
+
+> web-app@0.1.0 dev
+> next dev --hostname 127.0.0.1 --port 3000
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://127.0.0.1:3000
+- Network:       http://127.0.0.1:3000
+- Environments: .env
+✓ Ready in 765ms
+Creating turbopack project { dir: 'D:\\cimage-hackathon\\web-app', testMode: true }
+
+ HEAD / 307 in 607ms (next.js: 280ms, application-code: 327ms)
+prisma:query SELECT "public"."User"."id", "public"."User"."name", "public"."User"."email", "public"."User"."password", "public"."User"."image", "public"."User"."emailVerified", "public"."User"."createdAt", "public"."User"."updatedAt" FROM "public"."User" WHERE ("public"."User"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query INSERT INTO "public"."User" ("id","name","email","password","createdAt","updatedAt") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."User"."id", "public"."User"."email"
+ POST /api/user 201 in 5.3s (next.js: 166ms, application-code: 5.1s)
+ GET /api/auth/csrf 200 in 1050ms (next.js: 1034ms, application-code: 17ms)
+prisma:query SELECT "public"."User"."id", "public"."User"."name", "public"."User"."email", "public"."User"."password", "public"."User"."image", "public"."User"."emailVerified", "public"."User"."createdAt", "public"."User"."updatedAt" FROM "public"."User" WHERE ("public"."User"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ POST /api/auth/callback/credentials 200 in 619ms (next.js: 21ms, application-code: 598ms)
+ GET /dashboard 200 in 289ms (next.js: 69ms, proxy.ts: 12ms, application-code: 207ms)
+ GET /profile 200 in 118ms (next.js: 48ms, proxy.ts: 5ms, application-code: 65ms)
+ GET /search 200 in 497ms (next.js: 436ms, proxy.ts: 4ms, application-code: 56ms)
+ GET /notifications 200 in 438ms (next.js: 387ms, proxy.ts: 4ms, application-code: 47ms)
+[?25h

@@ -1,20 +1,16 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import { authConfig } from "@/lib/auth";
+import { withAuth } from "next-auth/middleware";
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const isProtected = authConfig.protectedRoutes.some((route) =>
-    pathname.startsWith(route),
-  );
-
-  if (!isProtected) {
-    return NextResponse.next();
-  }
-
-  return NextResponse.next();
-}
+export default withAuth({
+  pages: {
+    signIn: "/login",
+  },
+});
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/profile/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/profile/:path*",
+    "/search/:path*",
+    "/notifications/:path*",
+  ],
 };
