@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Lock, Mail, Sparkles, User2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { signupSchema } from "@/lib/validations";
@@ -17,7 +17,6 @@ type FormState = {
 type FieldErrors = Partial<Record<keyof FormState, string>>;
 
 export default function SignupPage() {
-  const { status } = useSession();
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -26,12 +25,6 @@ export default function SignupPage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      window.location.replace("/dashboard");
-    }
-  }, [status]);
 
   function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
