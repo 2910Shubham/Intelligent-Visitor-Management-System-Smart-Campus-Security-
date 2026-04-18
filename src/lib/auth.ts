@@ -1,10 +1,17 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
-import type { NextAuthOptions } from "next-auth";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/lib/db";
 import { loginSchema } from "@/lib/validations";
+
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+export const isGoogleAuthEnabled = Boolean(
+  googleClientId && googleClientSecret,
+);
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -50,10 +57,14 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-    }),
+    ...(isGoogleAuthEnabled
+      ? [
+          GoogleProvider({
+            clientId: googleClientId!,
+            clientSecret: googleClientSecret!,
+          }),
+        ]
+      : []),
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -70,9 +81,24 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+
+      if (new URL(url).origin === baseUrl) {
+        return url;
+      }
+
+      return `${baseUrl}/dashboard`;
+    },
   },
   pages: {
     signIn: "/login",
     error: "/login",
   },
 };
+
+export function getServerAuthSession() {
+  return getServerSession(authOptions);
+}

@@ -8,5 +8,9 @@ type ProvidersProps = {
 };
 
 export function Providers({ children }: ProvidersProps) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider refetchOnWindowFocus={false}>
+      {children}
+    </SessionProvider>
+  );
 }
