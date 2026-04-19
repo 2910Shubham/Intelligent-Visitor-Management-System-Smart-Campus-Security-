@@ -65,7 +65,8 @@ export async function getActiveVisitorIds(): Promise<string[]> {
 
 /** Check if visitor is currently active */
 export async function isVisitorActive(visitorId: string): Promise<boolean> {
-  return redis.sismember(KEYS.activeVisitors, visitorId) as Promise<boolean>;
+  const result = await redis.sismember(KEYS.activeVisitors, visitorId);
+  return Boolean(result);
 }
 
 // ─── Blacklist Operations ────────────────────────────────────
@@ -82,7 +83,8 @@ export async function removeFromBlacklist(visitorId: string): Promise<void> {
 
 /** Check blacklist — Redis first (sub-ms), never hits DB */
 export async function isBlacklisted(visitorId: string): Promise<boolean> {
-  return redis.sismember(KEYS.blacklist, visitorId) as Promise<boolean>;
+  const result = await redis.sismember(KEYS.blacklist, visitorId);
+  return Boolean(result);
 }
 
 // ─── Rate Limiting ───────────────────────────────────────────
