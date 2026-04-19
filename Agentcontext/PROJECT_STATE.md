@@ -152,7 +152,8 @@ GMAIL_APP_PASSWORD="..."                # Gmail app password (optional)
 
 ---
 
-## 🖥️ Frontend Pages (Visitor Only)
+## 🖥️ Frontend Pages
+### Visitor Pages
 | # | Route              | Description                           | Status |
 |---|--------------------|---------------------------------------|--------|
 | 1 | `/`                | Landing — "Smart Campus Visitor Pass" | ✅     |
@@ -160,10 +161,29 @@ GMAIL_APP_PASSWORD="..."                # Gmail app password (optional)
 | 3 | `/pass/[visitId]`  | QR code + OTP + countdown timer       | ✅     |
 | 4 | `/visit/[visitId]` | Live visit status (3 states)          | ✅     |
 
+### Guard Portal Pages (Protected — ADMIN role)
+| # | Route                       | Description                           | Status |
+|---|------------------------------|---------------------------------------|--------|
+| 5 | `/guard/login`              | Guard login (credentials auth)        | ✅     |
+| 6 | `/guard/dashboard`          | Active visitors + stats + quick actions| ✅     |
+| 7 | `/guard/scan`               | Camera QR scanner (html5-qrcode)      | ✅     |
+| 8 | `/guard/manual`             | Manual OTP/token entry + check-in/out | ✅     |
+| 9 | `/guard/checkout/[visitId]` | Visitor checkout confirmation          | ✅     |
+
+### Guard Credentials (Seeded)
+- **guard1@campus.edu** / guard@123 (Main Gate Guard)
+- **guard2@campus.edu** / guard@123 (East Gate Guard)
+
 ### Visit Status States
 - **CHECKED_IN:** Green checkmark, live timer, welcome message
 - **OVERSTAYED:** Amber warning banner, contact host button
 - **CHECKED_OUT:** Confetti animation, duration badge, download receipt
+
+### 📱 PWA (Progressive Web App) ✅
+- `manifest.json` with app shortcuts (Register Visit, Guard Scanner)
+- Service worker (`sw.js`) with cache-first strategy
+- PWA icons (192px, 512px)
+- Installable on mobile — standalone mode, dark theme
 
 ---
 

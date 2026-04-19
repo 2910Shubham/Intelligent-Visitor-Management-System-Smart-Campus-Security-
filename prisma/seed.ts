@@ -1,9 +1,40 @@
 import { PrismaClient, VisitStatus } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Seeding database...\n");
+
+  // ─── Gatekeeper Users ─────────────────────────────────────
+  const guardPassword = await bcrypt.hash("guard@123", 10);
+
+  const guards = await Promise.all([
+    prisma.user.upsert({
+      where: { email: "guard1@campus.edu" },
+      update: {},
+      create: {
+        name: "Main Gate Guard",
+        email: "guard1@campus.edu",
+        password: guardPassword,
+        role: "ADMIN",
+      },
+    }),
+    prisma.user.upsert({
+      where: { email: "guard2@campus.edu" },
+      update: {},
+      create: {
+        name: "East Gate Guard",
+        email: "guard2@campus.edu",
+        password: guardPassword,
+        role: "ADMIN",
+      },
+    }),
+  ]);
+
+  console.log(`✅ Created ${guards.length} gatekeeper users`);
+  console.log(`   📧 guard1@campus.edu / guard@123`);
+  console.log(`   📧 guard2@campus.edu / guard@123`);
 
   // ─── Hosts ───────────────────────────────────────────────
   const hosts = await Promise.all([

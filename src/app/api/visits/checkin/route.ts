@@ -73,6 +73,7 @@ export async function POST(request: NextRequest) {
         {
           error: "Already checked in",
           message: "This visitor is already checked in.",
+          visitId: visit.id,
           checkedInAt: visit.checkedInAt,
         },
         { status: 409 }

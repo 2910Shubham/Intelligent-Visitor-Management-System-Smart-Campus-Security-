@@ -1,19 +1,32 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "@/components/Providers";
+import { PWARegister } from "@/components/PWARegister";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Web App",
-  description: "Next.js app with Tailwind CSS",
+  title: "Smart Campus VMS — Visitor Management System",
+  description:
+    "Intelligent Visitor Management System for Smart Campuses. Register, scan QR, track visits in real-time.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Campus VMS",
+  },
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/icon-192.png",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  themeColor: "#4f46e5",
 };
 
 export default function RootLayout({
@@ -29,6 +42,7 @@ export default function RootLayout({
         <Providers>
           <main className="min-h-screen">{children}</main>
         </Providers>
+        <PWARegister />
       </body>
     </html>
   );

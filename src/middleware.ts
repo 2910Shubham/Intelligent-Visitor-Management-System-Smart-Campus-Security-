@@ -19,6 +19,7 @@ const ROLE_LEVEL: Record<string, number> = {
  */
 const ROUTE_ROLES: Record<string, string> = {
   "/admin": "ADMIN",
+  "/guard": "ADMIN",
 };
 
 export default withAuth(
@@ -36,7 +37,7 @@ export default withAuth(
         if (userLevel < requiredLevel) {
           const url = request.nextUrl.clone();
 
-          url.pathname = "/dashboard";
+          url.pathname = "/guard/login";
           url.searchParams.set("error", "unauthorized");
           return NextResponse.redirect(url);
         }
@@ -62,5 +63,7 @@ export const config = {
     "/search/:path*",
     "/notifications/:path*",
     "/admin/:path*",
+    "/guard/dashboard/:path*",
+    "/guard/scan/:path*",
   ],
 };
